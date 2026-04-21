@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# updateFancyTools - Met à jour les outils depuis GitHub
+set -e
+
+INSTALL_DIR="${HOME}/src/fancy_tools"
+cd "${INSTALL_DIR}"
+
+# Vérifier qu'on est sur la branche main
+current_branch=$(git branch --show-current)
+if [ "${current_branch}" != "main" ]; then
+    echo "Erreur : vous n'êtes pas sur la branche main (actuel : ${current_branch})" >&2
+    exit 1
+fi
+
+# Mise à jour
+git pull origin main
+
+# Copie vers ~/bin
+mkdir -p "${HOME}/bin"
+cp "${INSTALL_DIR}/bin/updateFancyTools" "${HOME}/bin/updateFancyTools"
+chmod +x "${HOME}/bin/updateFancyTools"
+echo "Mise à jour terminée avec succès."
